@@ -39,7 +39,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 // ****** DB configuration **************
 const url = "mongodb+srv://admin-fola:"+process.env.PSW+"@fola.rihps.mongodb.net/wikiDB";
-// mongodb+srv://admin-fola:test123@fola.rihps.mongodb.net/wikiDB?retryWrites=true&w=majority
+// mongodb+srv://admin-fola:<password>@fola.rihps.mongodb.net/wikiDB?retryWrites=true&w=majority
 const options = {
   useUnifiedTopology: true,
   useNewUrlParser: true,
