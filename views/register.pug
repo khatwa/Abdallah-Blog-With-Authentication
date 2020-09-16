@@ -8,12 +8,12 @@ block content
         .card
           .card-body
             //- Makes POST request to /register route
-            form(action='/register', method='POST')
+            form(action="/register", method="POST")
               .form-group
-                label(for='email') Email
-                input.form-control(type='email', name='username', autocomplete='off')
+                label(for="email") Email
+                input.form-control(type="email", name="username", autocomplete="off" required)
               .form-group
-                label(for='password') Password
-                input.form-control(type='password', name='password')
+                label(for="password") Password
+                input.form-control(type="password", name="password" required)
               input.user(type="submit" formaction="/article/add" style="display: none; visibility: hidden")
-              button.btn.btn-dark.user(type='submit') Register
+              button.btn.btn-dark.user(type="submit") Register

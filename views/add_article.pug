@@ -5,10 +5,10 @@ include header
   form(action="/article/add" method="post")
     .form-group
       label Title
-      input.form-control(type="text" name="title")
+      input.form-control(type="text" name="title" required)
     .form-group
       label Content
-      textarea.form-control(rows="3" name="content")
+      textarea.form-control(rows="3" name="content" required)
     .form-group    
       input.btn.btn-success(type="submit" name="submit")
 
