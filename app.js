@@ -38,7 +38,8 @@ console.log("Enviroment variable: " + process.env.SECRET);
 app.use(passport.initialize());
 app.use(passport.session());
 // ****** DB configuration **************
-const url = "mongodb://localhost:27017/wikiDB";
+const url = "mongodb+srv://admin-fola:"+process.env.PSW+"@fola.rihps.mongodb.net/wikiDB";
+// mongodb+srv://admin-fola:test123@fola.rihps.mongodb.net/wikiDB?retryWrites=true&w=majority
 const options = {
   useUnifiedTopology: true,
   useNewUrlParser: true,
