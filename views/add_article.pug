@@ -1,0 +1,15 @@
+include header
+
+.article
+  h1 Add article
+  form(action="/article/add" method="post")
+    .form-group
+      label Title
+      input.form-control(type="text" name="title")
+    .form-group
+      label Content
+      textarea.form-control(rows="3" name="content")
+    .form-group    
+      input.btn.btn-success(type="submit" name="submit")
+
+include footer

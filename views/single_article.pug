@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  .article
+    h1= article.title
+    p= article.content
+    a.btn.btn-light.edit(href="/article/edit/"+article.id) EDIT
+    button.btn.btn-danger.delete(value=article.id) DELETE

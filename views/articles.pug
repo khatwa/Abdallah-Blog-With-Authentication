@@ -1,0 +1,18 @@
+include header
+-let messages = getMessages()
+if messages.success
+  each msg in messages.success
+    div(class="article")
+      .alert.alert-success= msg
+if messages.errors
+  each msg in messages.error
+    .error= msg
+.article
+  h1 Blogs
+  
+  .container
+    each article in articles
+      a(href="/article/"+article._id)
+        h3= article.title   
+
+include footer

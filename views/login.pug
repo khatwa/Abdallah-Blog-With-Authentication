@@ -1,0 +1,23 @@
+extends layout-v1
+
+block content
+  .container.mt-5
+    h1 Login
+    .row
+      .col-sm-8
+        .card
+          .card-body
+            //- Makes POST request to /login route
+            form(action='/login', method='POST')
+              .form-group
+                label(for='email') Email
+                input.form-control(type='email', name='username')
+              .form-group
+                label(for='password') Password
+                input.form-control(type='password', name='password')
+              button.btn.btn-dark(type='submit') Login
+      .col-sm-4
+        p.login if you don't have account 
+          span 
+            a(href="/register") Register
+          
