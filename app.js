@@ -4,7 +4,6 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-const mongoose = require("mongoose");
 const session = require("express-session");
 const passport = require("passport");
 const flash = require("express-flash-messages");
@@ -44,36 +43,8 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // ****** DB configuration **************
-const url = "mongodb://localhost:27017/blog";
-// mongodb+srv://admin-fola:<password>@fola.rihps.mongodb.net/wikiDB?retryWrites=true&w=majority
-const options = {
-  useUnifiedTopology: true,
-  useNewUrlParser: true,
-  useCreateIndex: true,
-};
-mongoose.connect(url, options);
-const db = mongoose.connection;
-// Check DB error
-db.on("error", function (err) {
-  console.log(err);
-});
-// Check connection
-db.once("open", function () {
-  console.log("connected voila!");
-});
+require("./config/database");
 
-// Local Strategy, Change: use "createStrategy" instead of "authenticate" and all thanks to passport-local-mongoose
-const User = require("./models/users");
-passport.use(User.createStrategy());
-// use serialize & deserialize for the Cookies
-passport.serializeUser(function (user, done) {
-  done(null, user.id);
-});
-passport.deserializeUser(function (id, done) {
-  User.findById(id, function (err, user) {
-    done(err, user);
-  });
-});
 // Config the flash middleware
 app.use(flash());
 

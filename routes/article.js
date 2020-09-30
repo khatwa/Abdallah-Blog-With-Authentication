@@ -5,54 +5,56 @@ const Article = require("../models/articles");
 const User = require("../models/users");
 
 //**************** Request targenting  All articles****************
-router.get("/article", function(req, res) {
-  if (req.isAuthenticated()) { //check if the user authenticated to display articles
-    Article.find({})
-      .then(function(articles) {
-        if (articles) {
-          res.render("articles", {
-            articles: articles
-          });
-        } else {
-          console.log("Nothing in the DB");
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-  } else {
-    res.redirect("/login")
+router.get("/article", async (req, res) => {
+  if (req.isAuthenticated()) {
+    try {
+      //check if the user authenticated to display articles
+      const articles = await Article.find({});
+      if (articles) {
+        return res.render("articles", {
+          articles: articles,
+        });
+      }
+
+      return console.log("Nothing in the DB");
+    } catch (error) {
+      console.log({ error });
+      res.status(500);
+    }
   }
 
+  return res.redirect("/login");
 });
 //**************** Request targeting Single article*******************
 
 // Add single article Page
 router.get("/article/add", (req, res) => {
-  if (req.isAuthenticated()) { // check authentication
-    res.render("add_article")
-  } else {
-    res.redirect("/login")
+  if (req.isAuthenticated()) {
+    // check authentication
+    res.render("add_article");
   }
+
+  res.redirect("/login");
 });
 
 // Get single article
 router.get("/article/:id", (req, res) => {
-  if (req.isAuthenticated()) { // check authentication
+  if (req.isAuthenticated()) {
+    // check authentication
     const articleId = req.params.id;
     Article.findById(articleId)
-      .then(foundArticle => {
+      .then((foundArticle) => {
         if (foundArticle) {
           res.render("single_article", {
-            article: foundArticle
-          })
+            article: foundArticle,
+          });
         }
       })
-      .catch(err => {
+      .catch((err) => {
         console.log(err);
-      })
+      });
   } else {
-    res.redirect("/login")
+    res.redirect("/login");
   }
 });
 
@@ -61,24 +63,24 @@ router.get("/article/edit/:id", (req, res) => {
   const articleID = req.params.id;
   console.log(articleID);
   Article.findById(articleID)
-    .then(foundArticle => {
+    .then((foundArticle) => {
       if (foundArticle) {
         res.render("edit_article", {
-          article: foundArticle
-        })
+          article: foundArticle,
+        });
       } else {
         console.log("No article matches");
       }
     })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
-    })
+    });
 });
+
 // Post article
 router.post("/article/add", (req, res) => {
-  const title = req.body.title;
-  const content = req.body.content;
-  // console.log(title, content);
+  const { title, content } = req.body;
+
   const newArticle = new Article();
   newArticle.title = title;
   newArticle.content = content;
@@ -86,45 +88,43 @@ router.post("/article/add", (req, res) => {
   //   username: req.body.username
   // });
   console.log(req.body);
-  newArticle.save()
-    .catch(err => {
-      if (err) {
-        console.log(err);
-      }
-    })
-  req.flash("success", "Added successfuly!")
-  res.redirect("/article")
+  newArticle.save().catch((err) => {
+    if (err) {
+      console.log(err);
+    }
+  });
+  req.flash("success", "Added successfully!");
+  res.redirect("/article");
 });
+
 // Update article Request
 router.patch("/article/edit/:id", (req, res) => {
   const articleID = req.params.id;
   update = req.body;
   Article.findByIdAndUpdate(articleID, update, {
-      useFindAndModify: false,
-      new: true
+    useFindAndModify: false,
+    new: true,
+  })
+    .then((newDoc) => {
+      if (newDoc) console.log(newDoc);
+      res.send("voila");
     })
-    .then(newDoc => {
-      if (newDoc)
-        console.log(newDoc);
-      res.send("voila")
-    })
-    .catch(err => {
+    .catch((err) => {
       console.log(err);
-    })
+    });
 });
 // Delete Request
 router.delete("/article/delete/:id", (req, res) => {
   const articleID = req.params.id;
   console.log(articleID);
   Article.findByIdAndDelete(articleID)
-    .then(deletedItem => {
+    .then((deletedItem) => {
       if (deletedItem) {
-        console.log(deletedItem)
-        res.send("Got deleted..")
+        console.log(deletedItem);
+        res.send("Got deleted..");
       }
     })
-    .catch(err => console.log(err));
+    .catch((err) => console.log(err));
 });
-
 
 module.exports = router;
