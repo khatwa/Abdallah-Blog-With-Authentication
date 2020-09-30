@@ -1,0 +1,2 @@
+- should explain how to run the app in a better way (nodemon)
+- async/await style
